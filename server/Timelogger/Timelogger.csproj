@@ -8,4 +8,18 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Persistence\" />
+    <None Remove="Persistence\Contracts\" />
+    <None Remove="Persistence\Company\" />
+    <None Remove="Persistence\Project\" />
+    <None Remove="Persistence\TimeRegistration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Persistence\" />
+    <Folder Include="Persistence\Contracts\" />
+    <Folder Include="Persistence\Company\" />
+    <Folder Include="Persistence\Project\" />
+    <Folder Include="Persistence\TimeRegistration\" />
+  </ItemGroup>
 </Project>

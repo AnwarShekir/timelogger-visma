@@ -11,5 +11,7 @@ namespace Timelogger
 		}
 
 		public DbSet<Project> Projects { get; set; }
-	}
+		public DbSet<Company> Companies { get; set; }
+        public DbSet<TimeRegistration> TimeRegistrations { get; set; }
+    }
 }

@@ -6,6 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Timelogger.Entities;
+using Timelogger.Api.Services.Project;
+using Timelogger.Api.Services.TimeRegistration;
+using Timelogger.Api.Services.Company;
+using Timelogger.Api.Services.TimeRegistration.cs;
+using Timelogger.Persistence.Contracts;
+using Timelogger.Persistence.TimeRegistration;
+using Timelogger.Persistence.Project;
+using Timelogger.Persistence.Company;
+using System.Collections.Generic;
 
 namespace Timelogger.Api
 {
@@ -37,6 +46,28 @@ namespace Timelogger.Api
 				builder.AddDebug();
 			});
 
+			services.AddSwaggerGen(options =>
+			{
+				options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+				{
+					Title = "TimeLogger API",
+					Version = "v1",
+					Description = "Visma TimeLogger Api demo",
+				});
+				options.CustomSchemaIds(x => x.FullName);
+			});
+
+
+			/*Services *****************************************************************************************************/
+			services.AddTransient(typeof(IProjectService), typeof(ProjectService));
+			services.AddTransient(typeof(ITimeRegistrationService), typeof(TimeRegistrationService));
+			services.AddTransient(typeof(ICompanyService), typeof(CompanyService));
+
+			/*Persistance *****************************************************************************************************/
+			services.AddTransient(typeof(IProjectRepository), typeof(ProjectRepository));
+			services.AddTransient(typeof(ICompanyRepository), typeof(CompanyRepository));
+			services.AddTransient(typeof(ITimeRegistrationRepository), typeof(TimeRegistrationRepository));
+
 			services.AddMvc(options => options.EnableEndpointRouting = false);
 
 			if (_environment.IsDevelopment())
@@ -57,6 +88,8 @@ namespace Timelogger.Api
 			}
 
 			app.UseMvc();
+			app.UseSwagger();
+			app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Visma Timelogger API demo"));
 
 
 			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
@@ -69,14 +102,40 @@ namespace Timelogger.Api
 		private static void SeedDatabase(IServiceScope scope)
 		{
 			var context = scope.ServiceProvider.GetService<ApiContext>();
-			var testProject1 = new Project
+			var company = new Entities.Company()
 			{
-				Id = 1,
-				Name = "e-conomic Interview"
+				Address = "Test Adress nr 10, 4100 Ringsted",
+				Id = System.Guid.NewGuid(),
+				Name = "Test Virksomhed",
 			};
 
-			context.Projects.Add(testProject1);
+			var project = new Entities.Project()
+			{
+				CompanyId = company.Id,
+				Deadline = System.DateTime.Now.AddDays(7),
+				Start = System.DateTime.Now,
+				HourlyRate = 100,
+				Id = System.Guid.NewGuid(),
+				Name = "Test project"
+			};
 
+			var listRegistrations = new List<TimeRegistration>();
+
+			for(int i = 0; i<10; i++)
+            {
+				listRegistrations.Add(new TimeRegistration()
+				{
+					Date = System.DateTime.Now.AddDays(i),
+					Id = System.Guid.NewGuid(),
+					Minutes = 60 * i,
+					ProjectId = project.Id
+				});
+            }
+
+
+			context.Companies.Add(company);
+			context.Projects.Add(project);
+			context.TimeRegistrations.AddRange(listRegistrations);
 			context.SaveChanges();
 		}
 	}

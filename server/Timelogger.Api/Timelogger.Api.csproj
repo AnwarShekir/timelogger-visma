@@ -8,4 +8,34 @@
     <ProjectReference Include="..\Timelogger\Timelogger.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Services\" />
+    <None Remove="Services\Company\" />
+    <None Remove="Services\Project\" />
+    <None Remove="Common\" />
+    <None Remove="Models\" />
+    <None Remove="Models\Company\" />
+    <None Remove="Models\Project\" />
+    <None Remove="Models\TimeRegistration\" />
+    <None Remove="Services\TimeRegistration.cs\" />
+    <None Remove="Swashbuckle.AspNetCore.SwaggerUI" />
+    <None Remove="Swashbuckle.AspNetCore.SwaggerGen" />
+    <None Remove="Swashbuckle.AspNetCore.Swagger" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Company\" />
+    <Folder Include="Services\Project\" />
+    <Folder Include="Common\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Company\" />
+    <Folder Include="Models\Project\" />
+    <Folder Include="Models\TimeRegistration\" />
+    <Folder Include="Services\TimeRegistration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.1" />
+  </ItemGroup>
 </Project>

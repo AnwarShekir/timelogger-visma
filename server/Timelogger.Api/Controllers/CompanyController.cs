@@ -35,6 +35,22 @@ namespace Timelogger.Api.Controllers
 		}
 
 		[HttpGet]
+		[Route("search")]
+		public IActionResult FindCompanyByName([FromQuery] string query)
+        {
+            try
+            {
+				if (query == null) return BadRequest("No search query");
+				var result = _companyService.Find(query);
+				return Ok(result);
+            }
+            catch (Exception ex)
+            {
+				return ServerError(ex.Message);
+            }
+        }
+
+		[HttpGet]
 		[Route("{id}")]
 		public IActionResult GetSingle([FromRoute] Guid id)
 		{
@@ -63,6 +79,8 @@ namespace Timelogger.Api.Controllers
 				return ServerError(ex.Message);
 			}
 		}
+
+
 
 		[HttpPost]
 		public IActionResult Create([FromBody] CreateCompany dto)

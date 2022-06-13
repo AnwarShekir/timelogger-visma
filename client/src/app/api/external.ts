@@ -38,7 +38,7 @@ export class ExternalAPIAddress {
 }
 
 const AddressLookupService = () => {
-  const search = async (
+  const find = async (
     query: string
   ): Promise<AutoCompleteExternalAPIAddress[]> => {
     const result = await dawaApi.get<AutoCompleteExternalAPIAddress[]>(
@@ -48,7 +48,7 @@ const AddressLookupService = () => {
   };
 
   return {
-    search,
+    find,
   };
 };
 

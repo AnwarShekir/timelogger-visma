@@ -14,18 +14,14 @@ namespace Timelogger.Api.Services.TimeRegistration.cs
             _timeRegistrationsRepository = timeRegistrationRepository;
             _projectRepository = projectRepository;
         }
-        //stopped using EF a while ago, so forgot how to make foreign keys, but normmaly i would let the database handle if foreign key does not excist.
 
         public void Create(CreateTimeRegistration dto)
         {
-            var project = _projectRepository.GetSingle(dto.ProjectId); //throws error if project does not excist
+            var project = _projectRepository.GetSingle(dto.ProjectId); 
 
             //normally would  have a status on the project table to determine which state it is in (completed,ongoing,...)
             //but we use the date here for simplicity
-
-            var now = DateTime.Now;
-
-            int validateDate = DateTime.Compare(now, project.Deadline);
+            int validateDate = DateTime.Compare(dto.Date, project.Deadline);
             if(validateDate > 0)
             {
                 throw new ArgumentException("Project already completed");
@@ -33,7 +29,7 @@ namespace Timelogger.Api.Services.TimeRegistration.cs
 
             var entity = new Entities.TimeRegistration()
             {
-                Date = DateTime.Now,
+                Date = dto.Date,
                 Id = Guid.NewGuid(),
                 Minutes = dto.Minutes,
                 ProjectId = dto.ProjectId

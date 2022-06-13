@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Timelogger.Api.Models.TimeRegistration;
 using Timelogger.Api.Services.TimeRegistration;
@@ -47,6 +48,10 @@ namespace Timelogger.Api.Controllers
 		}
 
 		[HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status500InternalServerError)]
 		public IActionResult Create([FromBody] CreateTimeRegistration dto)
 		{
 			try
@@ -54,6 +59,14 @@ namespace Timelogger.Api.Controllers
 				 _timeRegistrationService.Create(dto);
 				return Ok();
 			}
+			catch(ArgumentException e)
+            {
+				return BadRequest(e.Message);
+            }
+			catch(InvalidOperationException e)
+            {
+				return NotFound(e.Message);
+            }
 			catch (System.Exception ex)
 			{
 				return ServerError(ex.Message);

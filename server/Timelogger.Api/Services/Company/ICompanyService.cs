@@ -9,5 +9,6 @@ namespace Timelogger.Api.Services.Company
         CompanyDTO GetSingle(Guid id);
         List<CompanyDTO> GetList();
         void Create(CreateCompany dto);
+        List<CompanyDTO> Find(string query);
     }
 }

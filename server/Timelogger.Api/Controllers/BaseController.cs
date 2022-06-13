@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Timelogger.Api.Common;
 
 namespace Timelogger.Api.Controllers

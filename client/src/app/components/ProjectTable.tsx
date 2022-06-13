@@ -16,6 +16,16 @@ const ProjectTable = ({ projects, onProjectSelect }: Props) => {
   //     })
   // }
 
+  const deadlineColumn = (value: Project) => {
+    const date = new Date(value.deadline);
+    return <label>{date.toLocaleDateString()}</label>;
+  };
+
+  const startColumn = (value: Project) => {
+    const date = new Date(value.start);
+    return <label>{date.toLocaleDateString()}</label>;
+  };
+
   return (
     <DataTable
       value={projects}
@@ -38,12 +48,14 @@ const ProjectTable = ({ projects, onProjectSelect }: Props) => {
         field="start"
         showFilterMenu={false}
         sortable
+        body={startColumn}
         header="Project start"
       ></Column>
       <Column
         field="deadline"
         showFilterMenu={false}
         sortable
+        body={deadlineColumn}
         header="Deadline"
       ></Column>
       <Column

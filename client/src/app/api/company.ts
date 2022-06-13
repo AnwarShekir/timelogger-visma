@@ -8,6 +8,7 @@ const routes = {
   base: () => CONTROLLER,
   single: (id: string) => `${CONTROLLER}/${id}`,
   listProjects: (id: string) => `${CONTROLLER}/${id}/projects`,
+  query: (q: string) => `${CONTROLLER}/search?query=${q}`,
 };
 
 const CompanyService = () => {
@@ -18,6 +19,13 @@ const CompanyService = () => {
   const single = async (id: string): Promise<Company> => {
     const apiResult = await timeLoggerApi.get<ApiResponse<Company>>(
       routes.single(id)
+    );
+    return apiResult.data.result;
+  };
+
+  const find = async (query: string): Promise<Company[]> => {
+    const apiResult = await timeLoggerApi.get<ApiResponse<Company[]>>(
+      routes.query(query)
     );
     return apiResult.data.result;
   };
@@ -40,6 +48,7 @@ const CompanyService = () => {
     create,
     single,
     list,
+    find,
     listProjects,
   };
 };

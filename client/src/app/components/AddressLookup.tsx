@@ -16,7 +16,7 @@ const AddressLookup = ({ onSelect }: Props) => {
   const [query, setQuery] = useState<string>("");
 
   const searchAddress = async (query: string) => {
-    const result = await AddressLookupService().search(query);
+    const result = await AddressLookupService().find(query);
     setSuggestions(result);
   };
 

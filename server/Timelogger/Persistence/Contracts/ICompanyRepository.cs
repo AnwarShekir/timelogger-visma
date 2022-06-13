@@ -9,5 +9,6 @@ namespace Timelogger.Persistence.Contracts
         Entities.Company GetSingle(Guid id);
         List<Entities.Company> GetList();
         void Create(Entities.Company company);
+        List<Entities.Company> Find(string query);
     }
 }

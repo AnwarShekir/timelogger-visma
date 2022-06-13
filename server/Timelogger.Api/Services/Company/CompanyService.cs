@@ -24,6 +24,24 @@ namespace Timelogger.Api.Services.Company
             _companyRepository.Create(company);
         }
 
+        public List<CompanyDTO> Find(string query)
+        {
+            List<Entities.Company> dbResult = _companyRepository.Find(query);
+            var result = new List<CompanyDTO>();
+            foreach (var element in dbResult)
+            {
+                result.Add(new CompanyDTO()
+                {
+                    Address = element.Address,
+                    Id = element.Id,
+                    Name = element.Name
+                }
+                );
+            }
+            return result;
+
+        }
+
         public List<CompanyDTO> GetList()
         {
             List<Entities.Company> dbResult = _companyRepository.GetList();

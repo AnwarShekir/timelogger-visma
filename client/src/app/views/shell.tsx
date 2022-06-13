@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import { Card } from "primereact/card";
 import { TabMenu } from "primereact/tabmenu";
 import React, { useState } from "react";
@@ -11,22 +10,20 @@ interface Tab {
   component: JSX.Element;
 }
 
+const tabs: Tab[] = [
+  {
+    label: "Virksomheder",
+    component: <CompanyTab />,
+    index: 0,
+  },
+  {
+    label: "Projekter",
+    component: <ProjectTab />,
+    index: 1,
+  },
+];
+
 const Shell = (): JSX.Element => {
-  const { t } = useTranslation();
-
-  const tabs: Tab[] = [
-    {
-      label: t("company"),
-      component: <CompanyTab />,
-      index: 0,
-    },
-    {
-      label: t("projects"),
-      component: <ProjectTab />,
-      index: 1,
-    },
-  ];
-
   const [currentTab, setCurrentTab] = useState<Tab>(tabs[0]);
 
   const cardHeader = (
